@@ -1,0 +1,50 @@
+<aside [class.collapsed]="isCollapsed">
+
+<!-- Header -->
+  <div class="sidebar-header">
+
+    <button
+      class="toggle-btn"
+      (click)="toggleSidebar()"
+      [attr.aria-expanded]="!isCollapsed"
+      [attr.aria-label]="isCollapsed ? 'Déployer le menu' : 'Réduire le menu'"
+    >
+
+      @if (!isCollapsed) {
+        <div class="brand">
+          <mat-icon>sports_basketball</mat-icon>
+          <app-title class="small"></app-title>
+        </div>
+
+        <mat-icon class="arrow-icon">arrow_back_ios</mat-icon>
+      } @else {
+        <mat-icon class="basket-icon">sports_basketball</mat-icon>
+        <mat-icon class="arrow-hover">arrow_forward_ios</mat-icon>
+      }
+
+    </button>
+
+  </div>
+
+  @if(!isCollapsed) {
+    <hr class="separator">
+  }
+
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+
+    @for (item of menuItems; track item.label) {
+      <button class="nav-item">
+
+        <mat-icon>{{ item.icon }}</mat-icon>
+
+        @if (!isCollapsed) {
+          <span class="nav-label">{{ item.label }}</span>
+        }
+
+      </button>
+    }
+
+  </nav>
+
+</aside>

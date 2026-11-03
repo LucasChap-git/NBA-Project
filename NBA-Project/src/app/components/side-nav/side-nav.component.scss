@@ -1,0 +1,230 @@
+
+@use 'styles/index' as *;
+
+aside {
+  // Dimensions dynamiques
+  --sidebar-expanded: #{$sidebar-width-expanded};
+  --sidebar-collapsed: #{$sidebar-width-collapsed};
+
+  width: var(--sidebar-expanded);
+  min-height: 100dvh;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+  overflow: hidden;
+
+  // Apparence
+  background: $color-background;
+  color: $color-text-secondary;
+  border-right: 1px solid $color-border-strong;
+
+  // Animation
+  transition: width $transition-standard;
+
+  &.collapsed {
+    width: var(--sidebar-collapsed);
+  }
+
+  // Header
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: $space-sm;
+    min-height: 4rem;
+    box-sizing: border-box;
+
+    .toggle-btn {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+      min-width: 0;
+      min-height: 2.5rem;
+
+      padding: $space-sm;
+      border: none;
+      border-radius: $radius-sm;
+
+      background: transparent;
+      color: $color-text-secondary;
+
+      cursor: pointer;
+      transition: background $transition-fast;
+
+      &:hover {
+        background: $color-surface-hover;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        min-width: 0;
+
+        mat-icon {
+          flex-shrink: 0;
+          color: $color-accent;
+        }
+
+        h4 {
+          margin: 0;
+          font-size: 0.95rem;
+          font-weight: 600;
+          white-space: nowrap;
+          text-transform: uppercase;
+          @include brand-gradient;
+        }
+      }
+
+      .arrow-icon {
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+        font-size: 1rem;
+        color: $color-text-muted;
+      }
+
+      .basket-icon,
+      .arrow-hover {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: opacity $transition-fast;
+
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .basket-icon {
+        opacity: 1;
+        color: $color-accent;
+      }
+
+      .arrow-hover {
+        opacity: 0;
+        color: $color-text-muted;
+      }
+    }
+  }
+
+  // Navigation
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: $space-sm;
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+
+      width: 100%;
+      min-height: 2.8rem;
+
+      padding: 0.65rem $space-md;
+
+      box-sizing: border-box;
+      border: none;
+      border-radius: $radius-sm;
+
+      background: transparent;
+      color: $color-text-muted;
+
+      font: inherit;
+      text-align: left;
+      white-space: nowrap;
+
+      cursor: pointer;
+
+      transition:
+        background $transition-fast,
+        color $transition-fast;
+
+      &:hover {
+        background: $color-surface-hover;
+        color: $color-text-white;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+      }
+
+      mat-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  // État réduit
+  &.collapsed {
+
+    .sidebar-header {
+      justify-content: center;
+      padding: $space-lg $space-sm;
+
+      .toggle-btn {
+        justify-content: center;
+        width: 100%;
+        min-height: 2.5rem;
+        padding: 0;
+      }
+
+      .toggle-btn:hover,
+      .toggle-btn:focus-visible {
+        .basket-icon {
+          opacity: 0;
+        }
+
+        .arrow-hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .sidebar-nav {
+      padding-inline: $space-sm;
+
+      .nav-item {
+        justify-content: center;
+        padding-inline: 0;
+      }
+    }
+  }
+}
+
+.separator {
+  border: none;
+  height: 2px;
+  width: 80%;
+  background-color: $color-border;
+}
+
+app-title.small {
+  display: block;
+  flex-shrink: 0;
+  width: max-content;
+  transform: scale(0.8);
+  transform-origin: left center;
+}

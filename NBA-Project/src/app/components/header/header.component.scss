@@ -1,0 +1,49 @@
+@use 'styles/index' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap');
+
+header {
+  position: relative;
+  height: $header-height;
+  padding: 0 $space-xl;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $color-background;
+  border-bottom: 1px solid $color-border-subtle;
+  color: $color-text-primary;
+
+  // Bloc titre centré
+  .title {
+    display: flex;
+    align-items: center;
+    gap: $space-md;
+
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: $color-accent;
+    }
+  }
+
+  // Badge version à droite
+  .version {
+    position: absolute;
+    right: $space-xl;
+
+    padding: $space-xs $space-md;
+    border: 1px solid $color-border;
+    border-radius: $radius-pill;
+    background: $color-surface;
+    font-size: $font-size-small;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    h4 {
+      margin: 0;
+    }
+  }
+}

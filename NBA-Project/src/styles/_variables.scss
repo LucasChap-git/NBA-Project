@@ -1,0 +1,32 @@
+$color-background: #151821;
+$color-surface: #202532;
+$color-surface-hover: #252b38;
+$color-text-primary: #f1f1f1;
+$color-text-secondary: #e5e7eb;
+$color-text-muted: #9ca3af;
+$color-text-white: #ffffff;
+$color-accent: #f97316;
+$color-focus: #818cf8;
+$color-border-subtle: #292e3b;
+$color-border: #3a3f4b;
+$color-border-strong: #3f4146;
+
+$gradient-brand: linear-gradient(90deg, $color-text-white, $color-accent);
+
+$sidebar-width-expanded: clamp(11rem, 15vw, 15rem);
+$sidebar-width-collapsed: 4rem;
+$header-height: 60px;
+
+$space-xs: 0.4rem;
+$space-sm: 0.5rem;
+$space-md: 0.75rem;
+$space-lg: 1rem;
+$space-xl: 2rem;
+
+$font-size-small: 0.75rem;
+
+$radius-sm: 0.6rem;
+$radius-pill: 20px;
+
+$transition-fast: 0.2s ease;
+$transition-standard: 0.3s ease;

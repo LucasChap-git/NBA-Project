@@ -1,0 +1,12 @@
+@use 'variables' as *;
+
+@mixin brand-gradient {
+  background: $gradient-brand;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin focus-ring {
+  outline: 2px solid $color-focus;
+  outline-offset: 2px;
+}

@@ -1,0 +1,14 @@
+@use 'styles/index' as *;
+
+.app-title{
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding-right: 0.3rem;
+
+    overflow: hidden;
+    font-family: 'Barlow', sans-serif;
+    font-style : italic;
+    text-transform: uppercase;
+    @include brand-gradient;
+}
