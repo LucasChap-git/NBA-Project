@@ -1,0 +1,21 @@
+<aside [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <button type="button" (click)="toggleSidebar()" [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+      <mat-icon>{{ isCollapsed ? 'menu' : 'close' }}</mat-icon>
+    </button>
+  </div>
+
+  <nav>
+    @for (item of menuItems; track item.label) {
+      <a class="nav-item" [routerLink]="item.route" routerLinkActive="active">
+        <mat-icon class="icon">{{ item.icon }}</mat-icon>
+        @if (!isCollapsed) {
+          <span>{{ item.label }}</span>
+        }
+      </a>
+    } @empty {
+      <li>There are no items.</li>
+    }
+  </nav>
+</aside>
+
