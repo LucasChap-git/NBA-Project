@@ -1,3 +1,5 @@
+@use 'styles/index' as *;
+
 :host {
   display: block;
   min-height: 100vh;
@@ -27,5 +29,5 @@ app-header {
 
 main {
   flex: 1;
-  padding: 2rem;
+  padding: $space-xl;
 }

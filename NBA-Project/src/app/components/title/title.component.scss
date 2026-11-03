@@ -1,14 +1,14 @@
+@use 'styles/index' as *;
+
 .app-title{
     margin: 0;
     font-size: 1.5rem;
-    font-weight:700;
+    font-weight: 700;
     padding-right: 0.3rem;
 
     overflow: hidden;
     font-family: 'Barlow', sans-serif;
     font-style : italic;
     text-transform: uppercase;
-    background: linear-gradient(90deg, #ffffff, #f97316);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    @include brand-gradient;
 }
