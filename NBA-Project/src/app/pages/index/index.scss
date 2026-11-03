@@ -1,0 +1,16 @@
+.index-page {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+}
+
+p {
+  margin: 0.75rem 0 0;
+}
