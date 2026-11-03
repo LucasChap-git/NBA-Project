@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { Title } from '../title/title.component';
 
 @Component({
   selector: 'app-side-nav',
@@ -9,7 +10,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    Title
   ],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.scss'

@@ -18,7 +18,7 @@ aside {
   // Apparence
   background: #151821;
   color: #e5e7eb;
-  border-right: 1px solid #292e3b;
+  border-right: 1px solid #3f4146;
 
   // Animation
   transition: width 0.3s ease;
@@ -221,4 +221,12 @@ aside {
   height: 2px;
   width: 80%;
   background-color: #3a3f4b;
+}
+
+app-title.small {
+  display: block;
+  flex-shrink: 0;
+  width: max-content;
+  transform: scale(0.8);
+  transform-origin: left center;
 }

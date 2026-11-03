@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap');
+
 header {
   position: relative;
   height: 60px;
@@ -23,17 +25,6 @@ header {
       height: 2rem;
       color: #f97316;
     }
-
-    .app-title{
-        margin: 0;
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #ffffff, #f97316);
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
   }
 
   // Badge version à droite
@@ -44,10 +35,7 @@ header {
     padding: 0.4rem 0.75rem;
     border: 1px solid #3a3f4b;
     border-radius: 20px;
-
     background: #202532;
-    color: #f97316;
-
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.5px;
