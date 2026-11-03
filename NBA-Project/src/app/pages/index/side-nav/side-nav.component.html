@@ -1,21 +1,48 @@
 <aside [class.collapsed]="isCollapsed">
+
+<!-- Header -->
   <div class="sidebar-header">
-    <button type="button" (click)="toggleSidebar()" [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
-      <mat-icon>{{ isCollapsed ? 'menu' : 'close' }}</mat-icon>
+
+    <button
+      class="toggle-btn"
+      (click)="toggleSidebar()"
+      [attr.aria-expanded]="!isCollapsed"
+      [attr.aria-label]="isCollapsed ? 'Déployer le menu' : 'Réduire le menu'"
+    >
+
+      @if (!isCollapsed) {
+        <div class="brand">
+          <mat-icon>sports_basketball</mat-icon>
+          <h4>NBA Tracker</h4>
+        </div>
+
+        <mat-icon class="arrow-icon">arrow_back_ios</mat-icon>
+      } @else {
+        <mat-icon class="basket-icon">sports_basketball</mat-icon>
+        <mat-icon class="arrow-hover">arrow_forward_ios</mat-icon>
+      }
+
     </button>
+
   </div>
 
-  <nav>
-    @for (item of menuItems; track item.label) {
-      <a class="nav-item" [routerLink]="item.route" routerLinkActive="active">
-        <mat-icon class="icon">{{ item.icon }}</mat-icon>
-        @if (!isCollapsed) {
-          <span>{{ item.label }}</span>
-        }
-      </a>
-    } @empty {
-      <li>There are no items.</li>
-    }
-  </nav>
-</aside>
+  <hr class="separator">
 
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+
+    @for (item of menuItems; track item.label) {
+      <button class="nav-item">
+
+        <mat-icon>{{ item.icon }}</mat-icon>
+
+        @if (!isCollapsed) {
+          <span class="nav-label">{{ item.label }}</span>
+        }
+
+      </button>
+    }
+
+  </nav>
+
+</aside>
