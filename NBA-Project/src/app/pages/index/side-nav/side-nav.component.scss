@@ -81,6 +81,10 @@ aside {
           font-size: 0.95rem;
           font-weight: 600;
           white-space: nowrap;
+          text-transform: uppercase;
+          background: linear-gradient(90deg, #ffffff, #f97316);
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
       }
 
