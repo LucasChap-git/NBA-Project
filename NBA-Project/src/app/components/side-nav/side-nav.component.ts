@@ -20,6 +20,7 @@ export class SideNavComponent {
 
   isCollapsed = false;
 
+  //Side nav titles
   menuItems = [
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
     { label: 'Users', icon: 'people', route: '/users' },
@@ -27,6 +28,7 @@ export class SideNavComponent {
     { label: 'Settings', icon: 'settings', route: '/settings' }
   ];
 
+  //Close it or open it
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
   }

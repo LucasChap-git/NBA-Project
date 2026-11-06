@@ -14,10 +14,10 @@ import { ApiData, TopScorer } from '../../services/api.service';
   styleUrl: './top-scorers.scss',
 })
 export class TopScorers {
-    //Services
+    //Inject
     readonly #apiService = inject(ApiData);
   
-    //Tableau
+    //Player datas name
     readonly topScorersTab: { key: keyof TopScorer; label: string }[] = [
       { key: 'name',      label: 'Player' },
       { key: 'team',      label: 'Team' },
@@ -30,6 +30,6 @@ export class TopScorers {
       { key: 'ftPct',     label: 'FT%' },
     ];
   
-    //Données
+    //Datas
     readonly topScorers = this.#apiService.getTopScorers();
 }

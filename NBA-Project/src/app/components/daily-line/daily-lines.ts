@@ -40,16 +40,16 @@ export class DailyLines {
   readonly #date = new Date();
 
   //Yesterday's formatted date
-  readonly formattedDate = (() => {
+  readonly #formattedDate = (() => {
     this.#date.setDate(this.#date.getDate() - 1);
     return this.#date.toISOString().slice(0, 10).replace(/-/g, '');
   })();
 
   //Getting daily lines from API service
-  readonly dailyLines = this.#apiUrl.getDailyLines(this.formattedDate);
+  readonly #dailyLines = this.#apiUrl.getDailyLines(this.#formattedDate);
 
   //Getting daily leaders from daily lines
-  readonly dailyLeaders = this.dailyLines.pipe(
+  readonly dailyLeaders = this.#dailyLines.pipe(
     map(lines => this.#apiUrl.getLeaders(lines)) //transforming Observable<DailyLine[]> into DailyLine[]
   );
 }
