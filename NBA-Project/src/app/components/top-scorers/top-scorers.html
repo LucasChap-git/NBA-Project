@@ -1,0 +1,39 @@
+<!-- Top Scorers -->
+<h3>Current best scorers</h3>
+@if (topScorers | async; as dataTopScorers) {
+    @if (dataTopScorers.length) {
+        <!-- Tableau -->
+        <table class="table table-responsive table-striped table-bordered">
+            <thead>
+                <!-- Defines a table row -->
+                <tr>
+                    @for (item of topScorersTab; track item.label) {
+                    <!-- Defines a header cell -->
+                    <th>{{item.label}}</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- Top Scorers Data -->
+                @for (player of dataTopScorers; track player.id) {
+                    <tr>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.team }}</td>
+                    <td>{{ player.position }}</td>
+                    <td>{{ player.ppg }}</td>
+                    <td>{{ player.games }}</td>
+                    <td>{{ player.minutes }}</td>
+                    <td>{{ player.fgPct }}%</td>
+                    <td>{{ player.threePct }}%</td>
+                    <td>{{ player.ftPct }}%</td>
+                    </tr>
+                }
+            </tbody>
+        </table> 
+    } @else {
+        <p>Aucun joueur trouvé.</p>
+    }
+} @else {
+<p>Chargement...</p>
+}

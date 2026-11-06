@@ -44,6 +44,9 @@ header {
 
     h4 {
       margin: 0;
+      font-size: inherit; //Sinon problème de taille
+      font-weight: inherit;
+      line-height: inherit;
     }
   }
 }
