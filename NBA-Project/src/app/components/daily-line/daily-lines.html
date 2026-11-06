@@ -1,0 +1,33 @@
+<!-- Daily leaders -->
+<h3>Daily leaders</h3>
+@if (dailyLeaders | async; as dataLeaders) {
+    @for (stat of statistics; track stat.key) {
+        @if (dataLeaders[stat.key].length) {
+            <h4>{{stat.title}}</h4>
+            <table class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        @for (label of columnLabels; track label) {
+                            <th>{{label}}</th>
+                        }
+                        <th>{{stat.label}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of dataLeaders[stat.key]; track item.name) {
+                        <tr>
+                            <td>{{item.name}}</td>
+                            <td>{{item.team}}</td>
+                            <td>{{item.position}}</td>
+                            <td>{{item[stat.property]}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        } @else {
+            <p>Aucun joueur trouvé.</p>
+        }
+    }
+} @else {
+    <p>Chargement...</p>
+}

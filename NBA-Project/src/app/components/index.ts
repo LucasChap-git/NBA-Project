@@ -5,6 +5,7 @@ import { Header } from './header/header.component';
 import { ApiData, TopScorer } from '../services/api.service';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { TopScorers } from './top-scorers/top-scorers';
+import { DailyLines } from './daily-line/daily-lines';
 
 @Component({
   selector: 'app-index-page',
@@ -15,6 +16,7 @@ import { TopScorers } from './top-scorers/top-scorers';
     RouterModule,
     Header,
     TopScorers,
+    DailyLines,
 ],
 })
 export class IndexPage {
