@@ -47,6 +47,12 @@ Once the server is running, open your browser and navigate to:
 http://localhost:4200/
 ```
 
+## 📜 Documentation
+
+```text
+https://github.com/0xShakhawat/ESPN-API/tree/main/docs
+```
+
 ## 👤 Author
 
 **Lucas CHAPON**
