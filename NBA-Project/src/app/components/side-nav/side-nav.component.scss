@@ -69,13 +69,8 @@ aside {
       .brand {
         display: flex;
         align-items: center;
-        gap: 0.65rem;
+        gap: 0.30rem;
         min-width: 0;
-
-        mat-icon {
-          flex-shrink: 0;
-          color: $color-accent;
-        }
 
         h4 {
           margin: 0;
@@ -117,6 +112,16 @@ aside {
         opacity: 0;
         color: $color-text-muted;
       }
+    }
+
+    img {
+      display: block;
+      flex: 0 0 auto;
+      width: auto;
+      height: 2.25rem;
+      max-width: 2.5rem;
+      object-fit: contain;
+      transition: opacity $transition-fast;
     }
   }
 
@@ -193,7 +198,7 @@ aside {
 
       .toggle-btn:hover,
       .toggle-btn:focus-visible {
-        .basket-icon {
+        img {
           opacity: 0;
         }
 
