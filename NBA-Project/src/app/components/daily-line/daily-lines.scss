@@ -1,0 +1,9 @@
+@use 'styles/index' as *;
+
+.card {
+    margin-top: 25px;
+}
+
+p {
+    color: $color-text-secondary;
+}
