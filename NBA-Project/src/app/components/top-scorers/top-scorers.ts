@@ -8,7 +8,6 @@ import { ApiData, TopScorer } from '../../services/api.service';
   imports: [
     RouterModule,
     AsyncPipe,
-    JsonPipe
 ],
   templateUrl: './top-scorers.html',
   styleUrl: './top-scorers.scss',
