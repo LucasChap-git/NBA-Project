@@ -6,6 +6,7 @@ import { ApiData, TopScorer } from '../services/api.service';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { TopScorers } from './top-scorers/top-scorers';
 import { DailyLines } from './daily-line/daily-lines';
+import { WelcomeCard } from './welcome-card/welcome-card';
 
 @Component({
   selector: 'app-index-page',
@@ -17,6 +18,7 @@ import { DailyLines } from './daily-line/daily-lines';
     Header,
     TopScorers,
     DailyLines,
+    WelcomeCard,
 ],
 })
 export class IndexPage {

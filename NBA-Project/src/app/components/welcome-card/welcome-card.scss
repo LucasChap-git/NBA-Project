@@ -1,0 +1,66 @@
+@use 'styles/index' as *;
+
+.welcome-card {
+  position: relative;
+  min-height: 230px;
+  display: flex;
+  align-items: center;
+  padding: 32px 40px;
+  overflow: hidden;
+  border: 1px solid $color-border-subtle;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(11, 17, 32, 0.4),
+      transparent
+    ),
+    url('/images/background_image.png') center / cover no-repeat;
+
+  .welcome-content {
+    position: relative;
+    z-index: 1;
+    max-width: 650px;
+  }
+
+    .welcome-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &::before {
+        content: '';
+        display: block;
+        width: 35px;
+        height: 2px;
+        background-color: $color-accent;
+    }
+
+    color: $color-accent;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    }
+
+  h2 {
+    color: $color-text-primary;
+    font-size: 2rem;
+    margin: 12px 0;
+
+    span {
+        font-style: italic;
+        font-weight: bold;
+        background: linear-gradient(90deg, $color-text-white, $color-accent);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+  }
+
+  p {
+    color: $color-text-secondary;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
