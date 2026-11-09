@@ -1,16 +1,35 @@
-$color-background: #151821;
-$color-surface: #202532;
-$color-surface-hover: #252b38;
-$color-text-primary: #f1f1f1;
-$color-text-secondary: #e5e7eb;
-$color-text-muted: #9ca3af;
-$color-text-white: #ffffff;
-$color-accent: #f97316;
-$color-focus: #818cf8;
-$color-border-subtle: #292e3b;
-$color-border: #3a3f4b;
-$color-border-strong: #3f4146;
+// Backgrounds
+$color-background: #0B1120;
+$color-background-nav: #111827;
+$color-background-header: #0F172A; //By default, header and nav to this color
+$color-background-card: #151F32;
+$color-background-match: #172236;
+$color-surface: #1E293B;
 
+// Text
+$color-text-primary: #F8FAFC;
+$color-text-secondary: #CBD5E1;
+$color-text-muted: #94A3B8;
+$color-text-white: #FFFFFF;
+$color-text-disabled: #64748B;
+
+// Accent
+$color-accent: #f97316;
+$color-accent-hover: #ea580c;
+$color-accent-purple: #A855F7;
+$color-success: #22C55E;
+$color-warning: #F59E0B;
+
+// Borders
+$color-border-subtle: #202D40;
+$color-border: #263449;
+$color-border-strong: #334155;
+
+// UI states
+$color-focus: #818cf8;
+$color-hover: #1E293B;
+
+// Tilte Gradient
 $gradient-brand: linear-gradient(90deg, $color-text-white, $color-accent);
 
 $sidebar-width-expanded: clamp(11rem, 15vw, 15rem);

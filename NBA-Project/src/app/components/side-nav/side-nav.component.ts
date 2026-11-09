@@ -23,6 +23,7 @@ export class SideNavComponent {
   //Side nav titles
   menuItems = [
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
+    { label: 'Results', icon: 'calendar_month', route: '/results' },
     { label: 'Standings', icon: 'leaderboard', route: '/standings' },
     { label: 'Season top stats', icon: 'query_stats', route: '/season/statistics' },
     { label: 'Ladders', icon: 'military_tech', route: '/ladders' },

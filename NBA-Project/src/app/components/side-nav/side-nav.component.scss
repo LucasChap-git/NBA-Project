@@ -18,7 +18,7 @@ aside {
   overflow: hidden;
 
   // Apparence
-  background: $color-background;
+  background: $color-background-header;
   color: $color-text-secondary;
   border-right: 1px solid $color-border-strong;
 
@@ -59,7 +59,7 @@ aside {
       transition: background $transition-fast;
 
       &:hover {
-        background: $color-surface-hover;
+        background: $color-surface;
       }
 
       &:focus-visible {
@@ -155,7 +155,7 @@ aside {
         color $transition-fast;
 
       &:hover {
-        background: $color-surface-hover;
+        background: $color-surface;
         color: $color-text-white;
       }
 
