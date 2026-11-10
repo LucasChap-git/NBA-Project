@@ -9,7 +9,7 @@ export const routes: Routes = [
     component: IndexPage,
     children: [
       { path: '', component: DailyLines },
-      {path: 'season-top-stats', component: TopLines},
+      {path: 'season-leaders', component: TopLines},
     ],
   },
   {

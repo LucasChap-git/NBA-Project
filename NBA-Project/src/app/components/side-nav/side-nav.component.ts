@@ -25,7 +25,7 @@ export class SideNavComponent {
     { label: 'Dashboard', icon: 'dashboard', route: '' },
     { label: 'Results', icon: 'calendar_month', route: '/results' },
     { label: 'Standings', icon: 'leaderboard', route: '/standings' },
-    { label: 'Season top stats', icon: 'query_stats', route: '/season-top-stats' },
+    { label: 'Season leaders', icon: 'query_stats', route: '/season-leaders' },
     { label: 'Ladders', icon: 'military_tech', route: '/ladders' },
     { label: 'Players', icon: 'person', route: '/players' },
     { label: 'Teams', icon: 'groups', route: '/teams' }

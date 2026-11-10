@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { ApiDataTopLines, TopScorer } from '../../services/top-line.service';
+import { ApiDataTopLines, TopScorers } from '../../services/top-line.service';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -21,4 +21,10 @@ export class TopLines {
     //Datas
     readonly topScorers = this.#apiService.getTopScorers();
     readonly topRebounders = this.#apiService.getTopRebounders();
+    readonly topAssists = this.#apiService.getTopAssists();
+    readonly topSteals = this.#apiService.getTopSteals();
+    readonly topBlocks = this.#apiService.getTopBlocks();
+    readonly topThreePointers = this.#apiService.getTopThree();
+    readonly TopThreePct = this.#apiService.getTopThreePct();
+    readonly topTurnovers = this.#apiService.getTopTurnovers();
 }

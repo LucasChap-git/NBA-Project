@@ -3,19 +3,13 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { map } from 'rxjs';
 
-
-export interface TopScorer {
+export interface TopScorers {
     id: string;
     icon: string;
     name: string;
     team: string;
     ppg: number;
-    // games: number;
-    // minutes: number;
     fgPct: number;
-    // threePct: number;
-    // ftPct: number;
-    // position: string;
 }
 
 export interface TopRebounders {
@@ -24,6 +18,48 @@ export interface TopRebounders {
     name: string;
     team: string;
     rebounds: number;
+}
+
+export interface TopAssists {
+    id: string;
+    icon: string;
+    name: string;
+    team: string;
+    assists: number;
+}
+
+
+export interface TopSteals {
+    id: string;
+    icon: string;
+    name: string;
+    team: string;
+    steals: number;
+}
+
+export interface TopBlocks {
+    id: string;
+    icon: string;
+    name: string;
+    team: string;
+    blocks: number;
+}
+
+export interface Top3pts {
+    id: string;
+    icon: string;
+    name: string;
+    team: string;
+    three: number;
+    threePct : number;
+}
+
+export interface TopTurnovers {
+    id: string;
+    icon: string;
+    name: string;
+    team: string;
+    to: number;
 }
 
 
@@ -36,35 +72,46 @@ export class ApiDataTopLines {
 
     constructor(private http: HttpClient) {}
 
+    //Functions
+    decimalRound(n: number): number {
+        return Math.round(Number(n) * 10) / 10;
+    }
+
+    getStat(response: any, athlete: any, statName: string, catName?: string): number {
+        const categories: any[] = response.categories ?? [];
+        console.log(categories);
+        for (let catIdx = 0; catIdx < categories.length; catIdx++) {
+            if (catName && categories[catIdx].name !== catName) continue;
+
+            const statIdx = (categories[catIdx].names ?? []).indexOf(statName);
+            if (statIdx !== -1) {
+                return Number(athlete.categories[catIdx]?.values[statIdx] ?? 0);
+            }
+        }
+        return 0;
+    }
+
+    getAvatar(id: string): string {
+        return `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
+    }
+
+    getTeamAvatar(id: string):string {
+        return `https://a.espncdn.com/i/teamlogos/nba/500/${id.toLowerCase()}.png`;
+    }
+
     //Top Scorers getter
-    getTopScorers(): Observable<TopScorer[]> {
+    getTopScorers(): Observable<TopScorers[]> {
         return this.http.get<any>(this.#apiUrlByAthlete, {
             params: { category: 'offensive', sort: 'offensive.avgPoints:desc', limit: '10' }
         }).pipe(
             map(res => {
-                const decimalRound = (n: number) => Math.round(Number(n) * 10) / 10;
-
-                const getStat = (athlete: any, catName: string, statName: string): number => {
-                    const catIdx = res.categories.findIndex((c: any) => c.name === catName);
-                    if (catIdx === -1) return 0;
-
-                    const statIdx = res.categories[catIdx].names.indexOf(statName);
-                    if (statIdx === -1) return 0;
-
-                    return athlete.categories[catIdx].values[statIdx];
-                };
-
-                const getAvatar = (id : string): string => {
-                    return `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`
-                }
-
-                return res.athletes.map((a: any): TopScorer => ({
+                return res.athletes.map((a: any): TopScorers => ({
                     id: a.athlete.id,
-                    icon: getAvatar(a.athlete.id),
+                    icon: this.getAvatar(a.athlete.id),
                     name: a.athlete.displayName,
-                    team: a.athlete.teamShortName,
-                    ppg: decimalRound(getStat(a, 'offensive', 'avgPoints')),
-                    fgPct: decimalRound(getStat(a, 'offensive', 'fieldGoalPct')),
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    ppg: this.decimalRound(this.getStat(res, a, 'avgPoints', 'offensive')),
+                    fgPct: this.decimalRound(this.getStat(res, a, 'fieldGoalPct', 'offensive')),
                 }));
             })
         );
@@ -76,32 +123,116 @@ export class ApiDataTopLines {
             params: { category: 'general', sort: 'general.avgRebounds:desc', limit: '10' }
         }).pipe(
             map(res => {
-                const decimalRound = (n: number) => Math.round(Number(n) * 10) / 10;
-
-                // Cherche la stat dans une catégorie précise, ou dans toutes si catName est omis
-                const getStat = (athlete: any, statName: string, catName?: string): number => {
-                    const categories: any[] = res.categories ?? [];
-                    console.log(res.categories.map((c: any) => ({ name: c.name, names: c.names })));
-                    for (let catIdx = 0; catIdx < categories.length; catIdx++) {
-                        if (catName && categories[catIdx].name !== catName) continue;
-
-                        const statIdx = categories[catIdx].names.indexOf(statName);
-                        if (statIdx !== -1) {
-                            return Number(athlete.categories[catIdx]?.values[statIdx] ?? 0);
-                        }
-                    }
-                    return 0;
-                };
-
-                const getAvatar = (id: string): string =>
-                    `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
-
                 return res.athletes.map((a: any): TopRebounders => ({
                     id: a.athlete.id,
-                    icon: getAvatar(a.athlete.id),
+                    icon: this.getAvatar(a.athlete.id),
                     name: a.athlete.displayName,
-                    team: a.athlete.teamShortName,
-                    rebounds: decimalRound(getStat(a, 'avgRebounds')),
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    rebounds: this.decimalRound(this.getStat(res, a, 'avgRebounds')),
+                }));
+            })
+        );
+    }
+
+    //Top Assists getter
+    getTopAssists(): Observable<TopAssists[]> {
+        return this.http.get<any>(this.#apiUrlByAthlete, {
+            params: { category: 'general', sort: 'offensive.avgAssists:desc', limit: '10' }
+        }).pipe(
+            map(res => {
+                return res.athletes.map((a: any): TopAssists => ({
+                    id: a.athlete.id,
+                    icon: this.getAvatar(a.athlete.id),
+                    name: a.athlete.displayName,
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    assists: this.decimalRound(this.getStat(res, a, 'avgAssists')),
+                }));
+            })
+        );
+    }
+
+    //Top Steals getter
+    getTopSteals(): Observable<TopSteals[]> {
+        return this.http.get<any>(this.#apiUrlByAthlete, {
+            params: { category: 'general', sort: 'defensive.avgSteals:desc', limit: '10' }
+        }).pipe(
+            map(res => {
+                return res.athletes.map((a: any): TopSteals => ({
+                    id: a.athlete.id,
+                    icon: this.getAvatar(a.athlete.id),
+                    name: a.athlete.displayName,
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    steals: this.decimalRound(this.getStat(res, a, 'avgSteals')),
+                }));
+            })
+        );
+    }
+
+    //Top Blocks getter
+    getTopBlocks(): Observable<TopBlocks[]> {
+        return this.http.get<any>(this.#apiUrlByAthlete, {
+            params: { category: 'general', sort: 'defensive.avgBlocks:desc', limit: '10' }
+        }).pipe(
+            map(res => {
+                return res.athletes.map((a: any): TopBlocks => ({
+                    id: a.athlete.id,
+                    icon: this.getAvatar(a.athlete.id),
+                    name: a.athlete.displayName,
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    blocks: this.decimalRound(this.getStat(res, a, 'avgBlocks')),
+                }));
+            })
+        );
+    }
+
+    //Top Three getter
+    getTopThree(): Observable<Top3pts[]> {
+        return this.http.get<any>(this.#apiUrlByAthlete, {
+            params: { category: 'general', sort: 'offensive.threePointFieldGoalsMade:desc', limit: '10' }
+        }).pipe(
+            map(res => {
+                return res.athletes.map((a: any): Top3pts => ({
+                    id: a.athlete.id,
+                    icon: this.getAvatar(a.athlete.id),
+                    name: a.athlete.displayName,
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    three: this.decimalRound(this.getStat(res, a, 'threePointFieldGoalsMade')),
+                    threePct: this.decimalRound(this.getStat(res, a, 'threePointFieldGoalPct')),
+                }));
+            })
+        );
+    }
+
+    //Top Turnovers getter
+    getTopTurnovers(): Observable<TopTurnovers[]> {
+        return this.http.get<any>(this.#apiUrlByAthlete, {
+            params: { category: 'general', sort: 'offensive.avgTurnovers:desc', limit: '10' }
+        }).pipe(
+            map(res => {
+                return res.athletes.map((a: any): TopTurnovers => ({
+                    id: a.athlete.id,
+                    icon: this.getAvatar(a.athlete.id),
+                    name: a.athlete.displayName,
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    to: this.decimalRound(this.getStat(res, a, 'avgTurnovers')),
+                }));
+            })
+        );
+    }
+
+    //Top ThreePct getter
+    getTopThreePct(): Observable<Top3pts[]> {
+        return this.http.get<any>(this.#apiUrlByAthlete, {
+            params: { category: 'general', sort: 'offensive.threePointFieldGoalPct', limit: '10' }
+        }).pipe(
+            map(res => {
+                return res.athletes.map((a: any): Top3pts => ({
+                    id: a.athlete.id,
+                    icon: this.getAvatar(a.athlete.id),
+                    name: a.athlete.displayName,
+                    team: this.getTeamAvatar(a.athlete.teamShortName),
+                    three: this.decimalRound(this.getStat(res, a, 'threePointFieldGoalsMade')),
+                    threePct: this.decimalRound(this.getStat(res, a, 'threePointFieldGoalPct')),
                 }));
             })
         );

@@ -53,6 +53,35 @@
             background-color: rgba(217, 70, 239, 0.18);
             --icon-color: #D946EF;
         }
+
+        &--ast {
+            background-color: rgba(16, 185, 129, 0.18);
+            --icon-color: #34D399;
+        }
+
+        &--stl {
+            background-color: rgba(245, 158, 11, 0.18);
+            --icon-color: #FBBF24;
+        }
+
+        &--blk {
+            background-color: rgba(244, 63, 94, 0.18);
+            --icon-color: #FB7185;
+        }
+        &--3pm {
+            background-color: rgba(163, 230, 53, 0.18);
+            --icon-color: #A3E635;
+        }
+
+        &--to {
+            background-color: rgba(148, 163, 184, 0.18);
+            --icon-color: #CBD5E1;
+        }
+
+        &--3pmPct {
+            background-color: rgba(14, 165, 233, 0.18);
+            --icon-color: #38BDF8;
+        }
     }
 
     &__link {
@@ -78,7 +107,7 @@
 
     &__item {
         display: grid;
-        grid-template-columns: 28px 42px minmax(0, 1fr) repeat(auto-fit, minmax(45px, auto));
+        grid-template-columns: 28px 42px minmax(0, 1fr) auto auto;
         align-items: center;
         gap: 12px;
         min-height: 72px;
@@ -97,6 +126,13 @@
         object-position: center;
     }
 
+    &__player {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+    }
+
     &__name {
         min-width: 0;
         color: $color-text-primary;
@@ -106,19 +142,26 @@
         white-space: nowrap;
     }
 
-    &__value {
-        min-width: 45px;
-        color: $color-text-primary;
+    &__team-logo {
+        display: block;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    &__stat {
+        color: $color-text-muted;
+        font-size: 0.85rem;
+        font-weight: 400;
         text-align: right;
         white-space: nowrap;
         font-variant-numeric: tabular-nums;
     }
 
-    &__stat {
+    &__value {
         min-width: 45px;
-        color: $color-text-muted;
-        font-size: 0.85rem;
-        font-weight: 400;
+        color: $color-text-primary;
         text-align: right;
         white-space: nowrap;
         font-variant-numeric: tabular-nums;
