@@ -33,17 +33,17 @@
   <!-- Navigation -->
   <nav class="sidebar-nav">
 
-    @for (item of menuItems; track item.label) {
-      <button class="nav-item">
+  @for (item of menuItems; track item.label) {
+    <a class="nav-item" [routerLink]="item.route">
 
-        <mat-icon>{{ item.icon }}</mat-icon>
+      <mat-icon>{{ item.icon }}</mat-icon>
 
-        @if (!isCollapsed) {
-          <span class="nav-label">{{ item.label }}</span>
-        }
+      @if (!isCollapsed) {
+        <span class="nav-label">{{ item.label }}</span>
+      }
 
-      </button>
-    }
+    </a>
+  }
 
   </nav>
 

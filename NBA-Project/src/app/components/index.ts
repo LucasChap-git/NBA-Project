@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { Header } from './header/header.component';
 import { DailyLines } from './daily-line/daily-lines';
@@ -17,6 +17,7 @@ import { TopLines } from './top-lines/top-lines';
     TopLines,
     DailyLines,
     WelcomeCard,
+    RouterOutlet,
 ],
 })
 export class IndexPage {

@@ -155,6 +155,8 @@ aside {
 
       cursor: pointer;
 
+      text-decoration: none;
+
       transition:
         background $transition-fast,
         color $transition-fast;

@@ -1,31 +1,17 @@
 import { Routes } from '@angular/router';
 import { IndexPage } from './components/index';
+import { DailyLines } from './components/daily-line/daily-lines';
+import { TopLines } from './components/top-lines/top-lines';
 
 export const routes: Routes = [
   {
     path: '',
     component: IndexPage,
+    children: [
+      { path: '', component: DailyLines },
+      {path: 'season-top-stats', component: TopLines},
+    ],
   },
-  // {
-  //   path: 'standings',
-  //   component: StandingsPage,
-  // },
-  // {
-  //   path: 'season/statistics',
-  //   component: SeasonStatisticsPage,
-  // },
-  // {
-  //   path: 'ladders',
-  //   component: LaddersPage,
-  // },
-  // {
-  //   path: 'players',
-  //   component: PlayersPage,
-  // },
-  // {
-  //   path: 'teams',
-  //   component: TeamsPage,
-  // },
   {
     path: '**',
     redirectTo: '',
