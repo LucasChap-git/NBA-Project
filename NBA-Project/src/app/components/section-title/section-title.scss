@@ -1,0 +1,131 @@
+@use 'styles/index' as *;
+
+.section-heading {
+    background-color: $color-background-card;
+    border: 1px solid $color-border-subtle;
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    &__eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        color: $color-accent;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    &__accent {
+        width: 3px;
+        height: 17px;
+        border-radius: 2px;
+        background-color: $color-accent;
+    }
+
+    &__date {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background-color: $color-surface;
+
+        color: $color-text-secondary;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+
+        mat-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+            color: $color-text-muted;
+        }
+    }
+
+    &__main {
+        h2 {
+            margin: 0;
+            color: $color-text-primary;
+            font-size: 1.8rem;
+            font-weight: 750;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            margin: 7px 0 0;
+            color: $color-text-muted;
+            font-size: 0.95rem;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 22px;
+        padding-top: 14px;
+        border-top: 1px solid $color-border-subtle;
+
+        > span {
+            color: $color-text-disabled;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+        }
+    }
+
+    &__season {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        color: $color-text-muted;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.7px;
+    }
+
+    &__status {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: $color-success;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-heading {
+        padding: 18px;
+
+        &__top {
+            margin-bottom: 16px;
+        }
+
+        &__main {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+        }
+
+        &__footer {
+            margin-top: 18px;
+        }
+    }
+}

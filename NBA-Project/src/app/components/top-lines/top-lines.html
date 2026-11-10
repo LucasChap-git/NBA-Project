@@ -1,3 +1,12 @@
+<app-section-title
+    eyebrow="NBA TRACKER / STATISTICS"
+    title="Top Lines"
+    description="The best individual performances from around the league."
+    date={{formattedDateForTitle}}
+    context="PLAYER PERFORMANCE"
+    status="REGULAR SEASON"
+/>
+
 <div class="leader-grid">
     @for (l of leaders; track l.config.key) {
         @if (l.players$ | async; as players) {
@@ -45,7 +54,6 @@
                                     <img
                                         class="leader-list__team-logo"
                                         [src]="player.team"
-                                        alt="Logo équipe"
                                         width="20"
                                         height="20"
                                         loading="lazy"

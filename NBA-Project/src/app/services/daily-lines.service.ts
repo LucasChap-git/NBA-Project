@@ -1,91 +1,156 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of, switchMap } from 'rxjs';
-import { map } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
 export interface DailyLine {
-  name: string; 
-  team: string;
-  pts: number; 
-  reb: number; 
-  ast: number; 
-  stl: number; 
-  blk: number;
-  tpm: number; 
-  ftm: number;
-  position: string;
+    id: string;
+    icon: string;
+    name: string;
+    team: string;
+    pts: number;
+    reb: number;
+    ast: number;
+    stl: number;
+    blk: number;
+    tpm: number;
+    position: string;
 }
 
-export type DailyLeaderKey = 'PTS' | 'REB' | 'AST' | 'STL' | 'BLK' | '3PM' | 'FTM';
-export type DailyStatProperty = 'pts' | 'reb' | 'ast' | 'stl' | 'blk' | 'tpm' | 'ftm';
+export type DailyLeaderKey = 'PTS' | 'REB' | 'AST' | 'STL' | 'BLK' | '3PM';
+export type DailyStatProperty = 'pts' | 'reb' | 'ast' | 'stl' | 'blk' | 'tpm';
 export type DailyLeaders = Record<DailyLeaderKey, DailyLine[]>;
 
+export interface DailyLeaderConfig {
+    key: DailyLeaderKey;
+    title: string;
+    property: DailyStatProperty;
+    unit: string;
+    iconClass: string;
+}
+
+export const DAILY_LEADERS: DailyLeaderConfig[] = [
+    { key: 'PTS', title: 'Points Leaders', property: 'pts', unit: 'PTS', iconClass: 'pts' },
+    { key: 'REB', title: 'Rebounds Leaders', property: 'reb', unit: 'REB', iconClass: 'reb' },
+    { key: 'AST', title: 'Assists Leaders', property: 'ast', unit: 'AST', iconClass: 'ast' },
+    { key: 'STL', title: 'Steals Leaders', property: 'stl', unit: 'STL', iconClass: 'stl' },
+    { key: 'BLK', title: 'Blocks Leaders', property: 'blk', unit: 'BLK', iconClass: 'blk' },
+    { key: '3PM', title: 'Three Pointers Leaders', property: 'tpm', unit: '3PM', iconClass: '3pm' },
+];
+
+interface ScoreboardEvent {
+    id: string;
+}
+
+interface ScoreboardResponse {
+    events?: ScoreboardEvent[];
+}
+
+interface BoxscoreAthlete {
+    athlete: {
+        id: string;
+        displayName: string;
+        position?: {
+            abbreviation?: string;
+        };
+    };
+    didNotPlay?: boolean;
+    stats?: string[];
+}
+
+interface BoxscoreTeam {
+    team: {
+        abbreviation: string;
+    };
+    statistics?: Array<{
+        labels: string[];
+        athletes: BoxscoreAthlete[];
+    }>;
+}
+
+interface SummaryResponse {
+    boxscore?: {
+        players?: BoxscoreTeam[];
+    };
+}
+
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ApiDataDailyLines {
-    //API Routes
-    readonly #apiUrlDailyLine = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba';
+    readonly #apiUrlDailyLine =
+        'https://site.api.espn.com/apis/site/v2/sports/basketball/nba';
 
     constructor(private http: HttpClient) {}
 
-    //Daily Lines getter
     getDailyLines(date: string): Observable<DailyLine[]> {
-        return this.http.get<any>(`${this.#apiUrlDailyLine}/scoreboard`, { params: { dates: date } }).pipe(
-            switchMap(sb => {
-            const ids: string[] = sb.events.map((e: any) => e.id);
-            if (!ids.length) return of([]);
-            return forkJoin(ids.map(id =>
-                this.http.get<any>(`${this.#apiUrlDailyLine}/summary`, { params: { event: id } })
-            ));
-            }),
-            map((summaries: any[]) => summaries.flatMap(s => this.#parseBoxscore(s)))
-        );
-        }
+        return this.http
+            .get<ScoreboardResponse>(`${this.#apiUrlDailyLine}/scoreboard`, {
+                params: { dates: date },
+            })
+            .pipe(
+                switchMap((scoreboard) => {
+                    const ids = (scoreboard.events ?? []).map((event) => event.id);
+                    if (!ids.length) {
+                        return of([] as SummaryResponse[]);
+                    }
+                    return forkJoin(
+                        ids.map((id) =>
+                            this.http.get<SummaryResponse>(
+                                `${this.#apiUrlDailyLine}/summary`,
+                                { params: { event: id } },
+                            ),
+                        ),
+                    );
+                }),
+                map((summaries) => summaries.flatMap((summary) => this.#parseBoxscore(summary))),
+                catchError(() => of([])),
+            );
+    }
 
-        #parseBoxscore(summary: any): DailyLine[] {
-        const made = (v: string) => Number(String(v).split('-')[0]) || 0;
+    getLeaders(lines: DailyLine[], property: DailyStatProperty): DailyLine[] {
+        return [...lines]
+            .sort((a, b) => b[property] - a[property])
+            .slice(0, 10);
+    }
 
-        return (summary.boxscore?.players ?? []).flatMap((team: any) => {
+    #parseBoxscore(summary: SummaryResponse): DailyLine[] {
+        const made = (value: string | undefined): number =>
+            Number(String(value).split('-')[0]) || 0;
+
+        return (summary.boxscore?.players ?? []).flatMap((team) => {
             const block = team.statistics?.[0];
-            if (!block) return [];
-            const L: string[] = block.labels;
-            const col = (stats: string[], label: string) => stats[L.indexOf(label)];
+            if (!block) {
+                return [];
+            }
 
-        return block.athletes
-            .filter((a: any) => !a.didNotPlay && a.stats?.length) //Excluding DNPs
-            .map((a: any): DailyLine => ({
-                name: a.athlete.displayName,
-                team: team.team.abbreviation,
-                position: a.athlete.position?.abbreviation ?? '-',
-                pts: Number(col(a.stats, 'PTS')),
-                reb: Number(col(a.stats, 'REB')),
-                ast: Number(col(a.stats, 'AST')),
-                stl: Number(col(a.stats, 'STL')),
-                blk: Number(col(a.stats, 'BLK')),
-                tpm: made(col(a.stats, '3PT')),
-                ftm: made(col(a.stats, 'FT')),
-            }));
+            const column = (stats: string[], label: string): string | undefined =>
+                stats[block.labels.indexOf(label)];
+
+            return block.athletes
+                .filter((athlete) => !athlete.didNotPlay && athlete.stats?.length)
+                .map(
+                    (athlete): DailyLine => ({
+                        id: athlete.athlete.id,
+                        icon: this.getAvatar(athlete.athlete.id),
+                        name: athlete.athlete.displayName,
+                        team: this.getTeamAvatar(team.team.abbreviation),
+                        position: athlete.athlete.position?.abbreviation ?? '-',
+                        pts: Number(column(athlete.stats ?? [], 'PTS')) || 0,
+                        reb: Number(column(athlete.stats ?? [], 'REB')) || 0,
+                        ast: Number(column(athlete.stats ?? [], 'AST')) || 0,
+                        stl: Number(column(athlete.stats ?? [], 'STL')) || 0,
+                        blk: Number(column(athlete.stats ?? [], 'BLK')) || 0,
+                        tpm: made(column(athlete.stats ?? [], '3PT')),
+                    }),
+                );
         });
     }
 
-    //Daily line leaders getter
-    getLeaders(lines: DailyLine[]): DailyLeaders {
-        //Getting the top 10 of each stats
-        const top10 = (key: keyof DailyLine) =>
-            [...lines]
-            .sort((a, b) => Number(b[key]) - Number(a[key]))
-            .slice(0, 10);
-
-        return {
-            PTS: top10('pts'),
-            REB: top10('reb'),
-            AST: top10('ast'),
-            STL: top10('stl'),
-            BLK: top10('blk'),
-            '3PM': top10('tpm'),
-            FTM: top10('ftm'),
-        };
+    private getAvatar(id: string): string {
+        return `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
     }
 
+    private getTeamAvatar(abbreviation: string): string {
+        return `https://a.espncdn.com/i/teamlogos/nba/500/${abbreviation.toLowerCase()}.png`;
+    }
 }
