@@ -14,8 +14,6 @@ import { TopLines } from './top-lines/top-lines';
     SideNavComponent,
     RouterModule,
     Header,
-    TopLines,
-    DailyLines,
     WelcomeCard,
     RouterOutlet,
 ],

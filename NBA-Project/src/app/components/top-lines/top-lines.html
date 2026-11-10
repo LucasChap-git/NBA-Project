@@ -1,489 +1,75 @@
 <div class="leader-grid">
-    <!-- Top scorers tab -->
-    @if (topScorers | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--pts" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Scoring Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
+    @for (l of leaders; track l.config.key) {
+        @if (l.players$ | async; as players) {
+            @if (players.length > 0) {
+                <section class="leader-card">
+                    <header class="leader-card__header">
+                        <div class="leader-card__title">
+                            <span
+                                class="leader-card__icon leader-card__icon--{{ l.config.iconClass }}"
+                                aria-hidden="true"
+                            >
+                                <mat-icon>sports_basketball</mat-icon>
                             </span>
 
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
+                            <h3>{{ l.config.title }}</h3>
+                        </div>
 
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
+                        <a class="leader-card__link" routerLink="/statistics">
+                            See more
+                            <span aria-hidden="true">→</span>
+                        </a>
+                    </header>
+
+                    <ol class="leader-list">
+                        @for (player of players; track player.id; let i = $index) {
+                            <li class="leader-list__item">
+                                <span class="leader-list__rank">
+                                    {{ i + 1 }}
                                 </span>
 
                                 <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
+                                    class="leader-list__avatar"
+                                    [src]="player.icon"
+                                    [alt]="player.name"
+                                    width="42"
+                                    height="52"
                                     loading="lazy"
                                 >
-                            </div>
 
-                            <span class="leader-list__stat">
-                                {{ player.fgPct }} FG%
-                            </span>
+                                <div class="leader-list__player">
+                                    <span class="leader-list__name">
+                                        {{ player.name }}
+                                    </span>
 
-                            <strong class="leader-list__value">
-                                {{ player.ppg }} PPG
-                            </strong>
-                        </li>
-                    }
-                </ol>
+                                    <img
+                                        class="leader-list__team-logo"
+                                        [src]="player.team"
+                                        alt="Logo équipe"
+                                        width="20"
+                                        height="20"
+                                        loading="lazy"
+                                    >
+                                </div>
 
-            </section>
+                                @if (player.secondary) {
+                                    <span class="leader-list__stat">
+                                        {{ player.secondary.value }} {{ player.secondary.label }}
+                                    </span>
+                                }
+
+                                <strong class="leader-list__value">
+                                    {{ player.value }} {{ l.config.unit }}{{ l.config.suffix ?? '' }}
+                                </strong>
+                            </li>
+                        }
+                    </ol>
+                </section>
+            } @else {
+                <p class="leader-message">Aucun joueur trouvé.</p>
+            }
         } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
+            <p class="leader-message">Chargement...</p>
         }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-
-    <!-- Top rebounders tab -->
-    @if (topRebounders | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--reb" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Rebounds Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.rebounds }} REB
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-
-    <!-- Top assists tab -->
-    @if (topAssists | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--ast" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Assists Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.assists }} AST
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-
-    <!-- Top steals tab -->
-    @if (topSteals | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--stl" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Steal Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.steals }} STL
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-
-    <!-- Top blocks tab -->
-    @if (topBlocks | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--blk" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Block Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.blocks }} BLK
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-    <!-- Top turnovers tab -->
-    @if (topTurnovers | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--to" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Turnover Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.to }} TO
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-    <!-- Top Three tab -->
-    @if (topThreePointers | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--3pm" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Three Pointer Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.three }} THREES
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
-    }
-    <!-- Top Three Pct tab -->
-    @if (TopThreePct | async; as players) {
-        @if (players.length > 0) {
-            <section class="leader-card">
-
-                <header class="leader-card__header">
-                    <div class="leader-card__title">
-                        <span class="leader-card__icon leader-card__icon--3pmPct" aria-hidden="true">
-                            <mat-icon>sports_basketball</mat-icon>
-                        </span>
-
-                        <h3>Three Pointer Pourcentage Leaders</h3>
-                    </div>
-
-                    <a class="leader-card__link" routerLink="/statistics">
-                        See more
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </header>
-
-                <ol class="leader-list">
-                    @for (player of players; track player.id; let i = $index) {
-                        <li class="leader-list__item">
-                            <span class="leader-list__rank">
-                                {{ i + 1 }}
-                            </span>
-
-                            <img
-                                class="leader-list__avatar"
-                                [src]="player.icon"
-                                loading="lazy"
-                            >
-                            <!--Lazy : when page loading-->
-
-                            <div class="leader-list__player">
-                                <span class="leader-list__name">
-                                    {{ player.name }}
-                                </span>
-
-                                <img
-                                    class="leader-list__team-logo"
-                                    [src]="player.team"
-                                    loading="lazy"
-                                >
-                            </div>
-
-                            <strong class="leader-list__value">
-                                {{ player.threePct }}%
-                            </strong>
-                        </li>
-                    }
-                </ol>
-
-            </section>
-        } @else {
-            <p class="leader-message">Aucun joueur trouvé.</p>
-        }
-    } @else {
-        <p class="leader-message">Chargement...</p>
     }
 </div>
