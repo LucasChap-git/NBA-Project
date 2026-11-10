@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ApiData, DailyLeaderKey, DailyStatProperty } from '../../services/api.service';
 import { AsyncPipe } from '@angular/common';
 import { map } from 'rxjs';
+import { ApiDataDailyLines, DailyLeaderKey, DailyStatProperty } from '../../services/daily-lines.service';
 
 interface StatisticConfig {
   key: DailyLeaderKey;
@@ -20,7 +20,7 @@ interface StatisticConfig {
 })
 export class DailyLines {
   //Injecting API service
-  readonly #apiUrl = inject(ApiData);
+  readonly #apiUrl = inject(ApiDataDailyLines);
 
   //Satistics titles
   readonly statistics: readonly StatisticConfig[] = [

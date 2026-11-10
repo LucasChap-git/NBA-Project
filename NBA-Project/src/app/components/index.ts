@@ -2,11 +2,9 @@ import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { Header } from './header/header.component';
-import { ApiData, TopScorer } from '../services/api.service';
-import { AsyncPipe, JsonPipe } from '@angular/common';
-import { TopScorers } from './top-scorers/top-scorers';
 import { DailyLines } from './daily-line/daily-lines';
 import { WelcomeCard } from './welcome-card/welcome-card';
+import { TopLines } from './top-lines/top-lines';
 
 @Component({
   selector: 'app-index-page',
@@ -16,7 +14,7 @@ import { WelcomeCard } from './welcome-card/welcome-card';
     SideNavComponent,
     RouterModule,
     Header,
-    TopScorers,
+    TopLines,
     DailyLines,
     WelcomeCard,
 ],

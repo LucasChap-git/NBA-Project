@@ -1,0 +1,109 @@
+<div class="leader-grid">
+    <!-- Top scorers tab -->
+    @if (topScorers | async; as players) {
+        @if (players.length > 0) {
+            <section class="leader-card">
+
+                <header class="leader-card__header">
+                    <div class="leader-card__title">
+                        <span class="leader-card__icon leader-card__icon--pts" aria-hidden="true">
+                            <mat-icon>sports_basketball</mat-icon>
+                        </span>
+
+                        <h3>Best Scorers</h3>
+                    </div>
+
+                    <a class="leader-card__link" routerLink="/statistics">
+                        See more
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </header>
+
+                <ol class="leader-list">
+                    @for (player of players; track player.id; let i = $index) {
+                        <li class="leader-list__item">
+                            <span class="leader-list__rank">
+                                {{ i + 1 }}
+                            </span>
+
+                            <img
+                                class="leader-list__avatar"
+                                [src]="player.icon"
+                                loading="lazy"
+                            >
+
+                            <span class="leader-list__name">
+                                {{ player.name }}
+                            </span>
+
+                            <span class="leader-list__stat">
+                                {{ player.fgPct }} FG%
+                            </span>
+
+                            <strong class="leader-list__value">
+                                {{ player.ppg }} PPG
+                            </strong>
+                        </li>
+                    }
+                </ol>
+
+            </section>
+        } @else {
+            <p class="leader-message">Aucun joueur trouvé.</p>
+        }
+    } @else {
+        <p class="leader-message">Chargement...</p>
+    }
+
+    <!-- Top rebounders tab -->
+    @if (topRebounders | async; as players) {
+        @if (players.length > 0) {
+            <section class="leader-card">
+
+                <header class="leader-card__header">
+                    <div class="leader-card__title">
+                        <span class="leader-card__icon leader-card__icon--reb" aria-hidden="true">
+                            <mat-icon>sports_basketball</mat-icon>
+                        </span>
+
+                        <h3>Best Rebounders</h3>
+                    </div>
+
+                    <a class="leader-card__link" routerLink="/statistics">
+                        See more
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </header>
+
+                <ol class="leader-list">
+                    @for (player of players; track player.id; let i = $index) {
+                        <li class="leader-list__item">
+                            <span class="leader-list__rank">
+                                {{ i + 1 }}
+                            </span>
+
+                            <img
+                                class="leader-list__avatar"
+                                [src]="player.icon"
+                                loading="lazy"
+                            >
+
+                            <span class="leader-list__name">
+                                {{ player.name }}
+                            </span>
+
+                            <strong class="leader-list__value">
+                                {{ player.rebounds }} REB
+                            </strong>
+                        </li>
+                    }
+                </ol>
+
+            </section>
+        } @else {
+            <p class="leader-message">Aucun joueur trouvé.</p>
+        }
+    } @else {
+        <p class="leader-message">Chargement...</p>
+    }
+</div>
