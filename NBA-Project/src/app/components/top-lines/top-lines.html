@@ -1,0 +1,82 @@
+<app-section-title
+    eyebrow="NBA TRACKER / STATISTICS"
+    title="Season Leaders"
+    description="The best individual performances from around the league."
+    date={{formattedDateForTitle}}
+    context="PLAYER PERFORMANCE"
+    status="REGULAR SEASON"
+/>
+<div class="leader-grid">
+    @for (l of leaders; track l.config.key) {
+        @if (l.players$ | async; as players) {
+            @if (players.length > 0) {
+                <section class="leader-card">
+                    <header class="leader-card__header">
+                        <div class="leader-card__title">
+                            <span
+                                class="leader-card__icon leader-card__icon--{{ l.config.iconClass }}"
+                                aria-hidden="true"
+                            >
+                                <mat-icon>sports_basketball</mat-icon>
+                            </span>
+
+                            <h3>{{ l.config.title }}</h3>
+                        </div>
+
+                        <a class="leader-card__link" routerLink="/statistics">
+                            See more
+                            <span aria-hidden="true">→</span>
+                        </a>
+                    </header>
+
+                    <ol class="leader-list">
+                        @for (player of players; track player.id; let i = $index) {
+                            <li class="leader-list__item">
+                                <span class="leader-list__rank">
+                                    {{ i + 1 }}
+                                </span>
+
+                                <img
+                                    class="leader-list__avatar"
+                                    [src]="player.icon"
+                                    [alt]="player.name"
+                                    width="42"
+                                    height="52"
+                                    loading="lazy"
+                                >
+
+                                <div class="leader-list__player">
+                                    <span class="leader-list__name">
+                                        {{ player.name }}
+                                    </span>
+
+                                    <img
+                                        class="leader-list__team-logo"
+                                        [src]="player.team"
+                                        width="20"
+                                        height="20"
+                                        loading="lazy"
+                                    >
+                                </div>
+
+                                @if (player.secondary) {
+                                    <span class="leader-list__stat">
+                                        {{ player.secondary.value }} {{ player.secondary.label }}
+                                    </span>
+                                }
+
+                                <strong class="leader-list__value">
+                                    {{ player.value }} {{ l.config.unit }}{{ l.config.suffix ?? '' }}
+                                </strong>
+                            </li>
+                        }
+                    </ol>
+                </section>
+            } @else {
+                <p class="leader-message">Aucun joueur trouvé.</p>
+            }
+        } @else {
+            <p class="leader-message">Chargement...</p>
+        }
+    }
+</div>

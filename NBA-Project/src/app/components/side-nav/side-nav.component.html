@@ -12,13 +12,13 @@
 
       @if (!isCollapsed) {
         <div class="brand">
-          <mat-icon>sports_basketball</mat-icon>
+          <img src="/images/nba_logo.png">
           <app-title class="small"></app-title>
         </div>
 
         <mat-icon class="arrow-icon">arrow_back_ios</mat-icon>
       } @else {
-        <mat-icon class="basket-icon">sports_basketball</mat-icon>
+        <img src="/images/nba_logo.png">
         <mat-icon class="arrow-hover">arrow_forward_ios</mat-icon>
       }
 
@@ -33,17 +33,17 @@
   <!-- Navigation -->
   <nav class="sidebar-nav">
 
-    @for (item of menuItems; track item.label) {
-      <button class="nav-item">
+  @for (item of menuItems; track item.label) {
+    <a class="nav-item" [routerLink]="item.route">
 
-        <mat-icon>{{ item.icon }}</mat-icon>
+      <mat-icon>{{ item.icon }}</mat-icon>
 
-        @if (!isCollapsed) {
-          <span class="nav-label">{{ item.label }}</span>
-        }
+      @if (!isCollapsed) {
+        <span class="nav-label">{{ item.label }}</span>
+      }
 
-      </button>
-    }
+    </a>
+  }
 
   </nav>
 

@@ -1,0 +1,177 @@
+@use 'styles/index' as *;
+
+.recent-games {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    max-height: calc(100vh - #{$header-height} - (2 * #{$space-xl}));
+    padding: 20px;
+
+    background-color: $color-background-match;
+    border: 1px solid $color-border-subtle;
+    border-radius: 12px;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+
+        > div {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            column-gap: 8px;
+        }
+
+        h3 {
+            grid-column: 1 / -1;
+            margin: 3px 0 0;
+            color: $color-text-primary;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+    }
+
+    &__eyebrow {
+        color: $color-accent;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    &__count {
+        padding: 5px 9px;
+        border-radius: 20px;
+        background-color: $color-surface;
+        color: $color-text-muted;
+        font-size: 0.65rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        min-height: 0;
+        max-height: calc(100vh - #{$header-height} - 11rem);
+        overflow-y: auto;
+        padding-right: 4px;
+
+        scrollbar-width: thin;
+        scrollbar-color: $color-border-strong transparent;
+    }
+
+    &__empty {
+        margin: 0;
+        padding: 24px 8px;
+        color: $color-text-muted;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    &__accent {
+        display: inline-block;
+        width: 3px;
+        height: 17px;
+        border-radius: 2px;
+        background-color: $color-accent;
+    }
+}
+
+.game-card {
+    padding: 15px 12px;
+
+    background-color: $color-background-card;
+    border: 1px solid $color-border-subtle;
+    border-radius: 10px;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+
+    &:hover {
+        background-color: $color-surface;
+        border-color: $color-border;
+    }
+
+    &__teams {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__team {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+
+        span {
+            color: $color-text-secondary;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        
+        .loser-score {
+            font-size: 1.15rem;
+        }
+
+        &--right {
+            justify-content: flex-end;
+        }
+    }
+
+    &__logo {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+
+    &__score {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        white-space: nowrap;
+
+        strong {
+            color: $color-text-primary;
+            font-size: 1.15rem;
+            font-weight: 750;
+            font-variant-numeric: tabular-nums;
+        }
+
+        span {
+            color: $color-text-disabled;
+            font-size: 0.85rem;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+
+        margin-top: 13px;
+        padding-top: 10px;
+        border-top: 1px solid $color-border-subtle;
+
+        span {
+            color: $color-text-muted;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+        }
+
+        .game-card__winner {
+            color: $color-success;
+        }
+    }
+}

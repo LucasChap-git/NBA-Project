@@ -1,0 +1,43 @@
+<!--Section title-->
+<section class="section-heading">
+
+    <div class="section-heading__top">
+        <div class="section-heading__eyebrow">
+            <span class="section-heading__accent"></span>
+            <span>NBA TRACKER</span>
+        </div>
+
+        @if (showDate() && date()) {
+            <div class="section-heading__date">
+                <mat-icon>calendar_today</mat-icon>
+                <span>{{ date() }}</span>
+            </div>
+        }
+    </div>
+
+    <div class="section-heading__main">
+        <h2>{{ title() }}</h2>
+
+        @if (description()) {
+            <p>{{ description() }}</p>
+        }
+    </div>
+
+    @if (showFooter() && (context() || status())) {
+        <div class="section-heading__footer">
+
+            @if (context()) {
+                <span>{{ context() }}</span>
+            }
+
+            @if (status()) {
+                <div class="section-heading__season">
+                    <span class="section-heading__status"></span>
+                    <span>{{ status() }}</span>
+                </div>
+            }
+
+        </div>
+    }
+
+</section>

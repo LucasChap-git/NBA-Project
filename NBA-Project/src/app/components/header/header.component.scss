@@ -11,7 +11,7 @@ header {
   align-items: center;
   justify-content: center;
 
-  background: $color-background;
+  background: $color-background-header;
   border-bottom: 1px solid $color-border-subtle;
   color: $color-text-primary;
 
@@ -19,7 +19,7 @@ header {
   .title {
     display: flex;
     align-items: center;
-    gap: $space-md;
+    gap: 0.30rem;
 
     mat-icon {
       font-size: 2rem;
@@ -44,6 +44,18 @@ header {
 
     h4 {
       margin: 0;
+      font-size: inherit; //Sinon problème de taille
+      font-weight: inherit;
+      line-height: inherit;
     }
+  }
+
+  img {
+    display: block;
+    flex: 0 0 auto;
+    width: auto;
+    height: 2.25rem;
+    max-width: 2.5rem;
+    object-fit: contain;
   }
 }

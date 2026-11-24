@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { Header } from './header/header.component';
+import { DailyLines } from './daily-line/daily-lines';
+import { WelcomeCard } from './welcome-card/welcome-card';
+import { TopLines } from './top-lines/top-lines';
 
 @Component({
   selector: 'app-index-page',
@@ -10,7 +13,9 @@ import { Header } from './header/header.component';
   imports: [
     SideNavComponent,
     RouterModule,
-    Header
+    Header,
+    RouterOutlet,
+    WelcomeCard,
 ],
 })
 export class IndexPage {
