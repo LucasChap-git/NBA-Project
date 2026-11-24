@@ -54,7 +54,6 @@ export class MatchService {
             },
           });
         }
-        console.log(games);
         return games;
       })
     );

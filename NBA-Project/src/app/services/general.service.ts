@@ -17,4 +17,8 @@ export class GeneralService {
     decimalRound(n: number): number {
       return Math.round(Number(n) * 10) / 10;
     }
+
+    getFormattedDateForTitle (date : Date) {
+      return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+    }
 }

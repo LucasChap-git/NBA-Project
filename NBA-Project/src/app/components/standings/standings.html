@@ -1,0 +1,53 @@
+<app-section-title
+    title="Standings"
+    description="The best individual performances from around the league."
+    date={{formattedDate}}
+    context="TEAM PERFORMANCE"
+    status="REGULAR SEASON"
+/>
+
+@if (standings()) {
+  <div>
+    <table class = "table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team</th>
+          <th>W</th>
+          <th>L</th>
+          <th>PCT</th>
+          <th>GB</th>
+          <th>Dom</th>
+          <th>Ext</th>
+          <th>PPG</th>
+          <th>Opp PPG</th>
+          <th>Diff</th>
+          <th>Streak</th>
+          <th>L10</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (team of standings(); track team.id; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>
+              <img [src]="team.logo" width="24" height="24" />
+              <span>{{ team.teamName }}</span>
+            </td>
+            <td>{{ team.win }}</td>
+            <td>{{ team.loss }}</td>
+            <td>{{ team.pct }}</td>
+            <td>{{ team.gamesBack }}</td>
+            <td>{{ team.homeScore }}</td>
+            <td>{{ team.awayScore }}</td>
+            <td>{{ team.ppg }}</td>
+            <td>{{ team.oppPpg }}</td>
+            <td>{{ team.diff }}</td>
+            <td>{{ team.streak }}</td>
+            <td>{{ team.last10 }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
