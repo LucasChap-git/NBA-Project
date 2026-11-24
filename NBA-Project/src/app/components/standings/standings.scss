@@ -1,0 +1,418 @@
+
+@use 'styles/index' as *;
+
+.standings {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    // Toolbar
+    &__toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    // Tabs
+    &__tabs {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        width: 320px;
+        height: 44px;
+        padding: 4px;
+
+        background-color: $color-background-card;
+        border: 1px solid $color-border;
+        border-radius: 10px;
+    }
+
+    &__tab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex: 1;
+        height: 100%;
+
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+
+        color: $color-text-muted;
+        font-size: 0.85rem;
+        font-weight: 600;
+
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        mat-icon {
+            width: 18px;
+            height: 18px;
+            font-size: 18px;
+        }
+
+        &:not(:disabled):hover {
+            background-color: $color-hover;
+            color: $color-text-primary;
+        }
+
+        &--active {
+            background-color: $color-accent;
+            color: $color-text-white;
+            cursor: default;
+
+            &:hover {
+                background-color: $color-accent;
+            }
+        }
+    }
+
+    // Qualification legend
+    &__legend {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    &__legend-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        color: $color-text-secondary;
+        font-size: 0.75rem;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    &__legend-dot {
+        width: 8px;
+        height: 8px;
+        flex-shrink: 0;
+        border-radius: 50%;
+
+        &--playoffs {
+            background-color: #4ADE80;
+        }
+
+        &--playin {
+            background-color: #FB923C;
+        }
+
+        &--outside {
+            background-color: #94A3B8;
+        }
+    }
+
+    &__legend-range {
+        color: $color-text-muted;
+        font-size: 0.68rem;
+        font-variant-numeric: tabular-nums;
+    }
+
+    // Groups
+    &__groups {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+
+        &--conference {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+        }
+    }
+}
+
+// Standings cards
+.standings-card {
+    min-width: 0;
+    overflow: hidden;
+
+    background-color: $color-background-card;
+    border: 1px solid $color-border-subtle;
+    border-radius: 12px;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+
+        padding: 18px 20px;
+        border-bottom: 1px solid $color-border-subtle;
+    }
+
+    &__heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    &__accent {
+        width: 3px;
+        height: 35px;
+        flex-shrink: 0;
+        border-radius: 3px;
+        background-color: $color-accent;
+    }
+
+    // Conference logo and title
+    &__title-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+
+        img {
+            display: block;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        h3 {
+            margin: 0;
+        }
+    }
+
+    h3 {
+        color: $color-text-primary;
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    p {
+        margin: 4px 0 0;
+        color: $color-text-muted;
+        font-size: 0.75rem;
+    }
+
+    &__badge {
+        padding: 5px 9px;
+        border-radius: 5px;
+
+        background-color: $color-surface;
+        color: $color-text-muted;
+
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        white-space: nowrap;
+    }
+
+    &__table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+// Table
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+
+    thead {
+        background-color: rgba(30, 41, 59, 0.45);
+
+        th {
+            padding: 13px 12px;
+
+            color: $color-text-muted;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-align: center;
+            text-transform: uppercase;
+
+            &:first-child {
+                padding-left: 20px;
+            }
+
+            &:last-child {
+                padding-right: 20px;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            border-top: 1px solid $color-border-subtle;
+            transition: background-color 0.15s ease;
+
+            &:hover {
+                background-color: rgba(30, 41, 59, 0.55);
+            }
+        }
+
+        td {
+            padding: 12px;
+            color: $color-text-secondary;
+            font-size: 0.82rem;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+
+            &:first-child {
+                padding-left: 20px;
+            }
+
+            &:last-child {
+                padding-right: 20px;
+            }
+        }
+    }
+
+    &__rank {
+        width: 45px;
+        text-align: center;
+    }
+
+    &__rank-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 27px;
+        height: 27px;
+        border-radius: 7px;
+
+        color: $color-text-muted;
+        font-size: 0.75rem;
+        font-weight: 700;
+
+        &--playoffs {
+            background-color: rgba(34, 197, 94, 0.14);
+            color: #4ADE80;
+        }
+
+        &--playin {
+            background-color: rgba(249, 115, 22, 0.14);
+            color: #FB923C;
+        }
+
+        &--outside {
+            background-color: rgba(100, 116, 139, 0.14);
+            color: #94A3B8;
+        }
+    }
+
+    &__team-column {
+        min-width: 155px;
+        text-align: left !important;
+    }
+
+    &__team-cell {
+        text-align: left !important;
+    }
+
+    &__team {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+
+        span {
+            overflow: hidden;
+            color: $color-text-primary;
+            font-weight: 600;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &__logo {
+        display: block;
+        width: 27px;
+        height: 27px;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+
+    &__value {
+        color: $color-text-secondary;
+    }
+
+    &__empty {
+        padding: 30px !important;
+        color: $color-text-muted !important;
+        text-align: center !important;
+    }
+}
+
+// Responsive
+@media (max-width: 1100px) {
+    .standings {
+        &__groups--conference {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (max-width: 850px) {
+    .standings {
+        &__toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        &__legend {
+            justify-content: flex-start;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .standings {
+        &__toolbar {
+            gap: 14px;
+        }
+
+        &__tabs {
+            width: 100%;
+        }
+
+        &__legend {
+            gap: 12px;
+        }
+
+        &__legend-item {
+            font-size: 0.7rem;
+        }
+    }
+
+    .standings-table {
+        thead th,
+        tbody td {
+            padding: 10px 8px;
+        }
+
+        &__team-column {
+            min-width: 130px;
+        }
+    }
+
+    .standings-card {
+        &__header {
+            padding: 14px 12px;
+        }
+
+        &__title-group {
+            gap: 8px;
+
+            img {
+                width: 34px;
+                height: 34px;
+            }
+        }
+
+        h3 {
+            font-size: 0.95rem;
+        }
+    }
+}

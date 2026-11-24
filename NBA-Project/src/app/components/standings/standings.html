@@ -1,0 +1,164 @@
+
+<app-section-title
+    title="Standings 2026-27"
+    description="Track the race for the top seed across the East and West."
+    [date]="formattedDate"
+    context="TEAM RANKINGS"
+    status="REGULAR SEASON"
+/>
+
+<section class="standings">
+
+    <!-- Sélecteur de vue et légende -->
+    <div class="standings__toolbar">
+
+        <div class="standings__tabs">
+
+            <button
+                class="standings__tab"
+                [class.standings__tab--active]="byConference()"
+                [attr.aria-pressed]="byConference()"
+                (click)="switchTabView()"
+                [disabled]="byConference()"
+            >
+                <mat-icon>account_tree</mat-icon>
+                Conference
+            </button>
+
+            <button
+                class="standings__tab"
+                [class.standings__tab--active]="!byConference()"
+                [attr.aria-pressed]="!byConference()"
+                (click)="switchTabView()"
+                [disabled]="!byConference()"
+            >
+                <mat-icon>leaderboard</mat-icon>
+                League
+            </button>
+        </div>
+
+        <!-- Légende des qualifications -->
+        <div class="standings__legend">
+
+            <div class="standings__legend-item">
+                <span class="standings__legend-dot standings__legend-dot--playoffs"></span>
+                <span>Playoffs</span>
+            </div>
+
+            <div class="standings__legend-item">
+                <span class="standings__legend-dot standings__legend-dot--playin"></span>
+                <span>Play-In</span>
+            </div>
+
+            <div class="standings__legend-item">
+                <span class="standings__legend-dot standings__legend-dot--outside"></span>
+                <span>Outside</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableaux -->
+    <div
+        class="standings__groups"
+        [class.standings__groups--conference]="byConference()"
+    >
+        @for (group of groups(); track group.label) {
+            <section class="standings-card">
+
+                <header class="standings-card__header">
+                    <div class="standings-card__heading">
+                        <span class="standings-card__accent"></span>
+                        <div class="standings-card__title-group">
+                          @if (group.label === 'Eastern Conference' && byConference()) {
+                              <img src="/images/eastern.png" width="40" height="40">
+                          } @else if (group.label === 'Western Conference' && byConference()) {
+                              <img src="/images/west.png" width="40" height="40">
+                          } @else if (group.label === 'League Rankings') {
+                              <img src="/images/nba_logo.png" width="40" height="40">
+                          }
+
+                          <h3>{{ group.label }}</h3>
+                      </div>
+                    </div>
+                </header>
+
+                <div class="standings-card__table-wrapper">
+                    <table class="standings-table">
+
+                        <thead>
+                            <tr>
+                                <th class="standings-table__rank">#</th>
+
+                                @for (col of tabContent; track col.key) {
+                                    <th
+                                        [class.standings-table__team-column]="col.key === 'team'"
+                                    >
+                                        {{ col.label }}
+                                    </th>
+                                }
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (team of group.data; track team.id; let idx = $index) {
+                                <tr>
+                                    <td class="standings-table__rank">
+                                        <span
+                                        class="standings-table__rank-number"
+                                        [class.standings-table__rank-number--playoffs]="
+                                          byConference()
+                                            ? idx < 6
+                                            : getTeamQualification(team) === 'playoffs'
+                                        "
+                                        [class.standings-table__rank-number--playin]="
+                                          byConference()
+                                            ? idx >= 6 && idx < 10
+                                            : getTeamQualification(team) === 'playin'
+                                        "
+                                      >
+                                        {{ idx + 1 }}
+                                      </span>
+                                    </td>
+
+                                    @for (col of tabContent; track col.key) {
+                                        <td
+                                            [class.standings-table__team-cell]="col.key === 'team'"
+                                        >
+                                            @if (col.key === 'team') {
+                                                <div class="standings-table__team">
+                                                    <img
+                                                        [src]="team.logo"
+                                                        [alt]="col.value(team)"
+                                                        class="standings-table__logo"
+                                                        loading="lazy"
+                                                    />
+                                                    <span>{{ col.value(team) }}</span>
+                                                </div>
+                                            } @else {
+                                                <span class="standings-table__value">
+                                                    {{ col.value(team) }}
+                                                </span>
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            } @empty {
+                                <tr>
+                                    <td
+                                        class="standings-table__empty"
+                                        [attr.colspan]="tabContent.length + 1"
+                                    >
+                                        No teams available.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </section>
+        }
+    </div>
+
+</section>

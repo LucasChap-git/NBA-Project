@@ -9,8 +9,7 @@ import { WelcomeCard } from '../welcome-card/welcome-card';
   imports: [
     DailyLines, 
     MatchAside, 
-    SectionTitle, 
-    WelcomeCard
+    SectionTitle,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
