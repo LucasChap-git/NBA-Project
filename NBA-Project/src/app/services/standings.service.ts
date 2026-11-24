@@ -66,7 +66,9 @@ export class StandingsService {
             });
           }
         }
-        standings.sort((a, b) => Number(b.pct) - Number(a.pct)); //Sort by win pct       
+        standings.sort((a, b) => Number(b.pct) - Number(a.pct)); //Sort by win pct
+        //standings.sort((a, b) => a.conference.localeCompare(b.conference)); //By conference
+        //console.log(standings);
 
         return standings;
       }
