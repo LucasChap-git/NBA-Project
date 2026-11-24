@@ -1,12 +1,11 @@
 <app-section-title
     eyebrow="NBA TRACKER / STATISTICS"
-    title="Top Lines"
+    title="Season Leaders"
     description="The best individual performances from around the league."
     date={{formattedDateForTitle}}
     context="PLAYER PERFORMANCE"
     status="REGULAR SEASON"
 />
-
 <div class="leader-grid">
     @for (l of leaders; track l.config.key) {
         @if (l.players$ | async; as players) {

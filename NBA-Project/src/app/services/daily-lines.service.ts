@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { GeneralService } from './general.service';
 
 export interface DailyLine {
     id: string;
@@ -77,11 +78,15 @@ interface SummaryResponse {
     providedIn: 'root',
 })
 export class ApiDataDailyLines {
-    readonly #apiUrlDailyLine =
-        'https://site.api.espn.com/apis/site/v2/sports/basketball/nba';
+    //ESPN API Url
+    readonly #apiUrlDailyLine ='https://site.api.espn.com/apis/site/v2/sports/basketball/nba';
+
+    //General service
+    readonly #apiGeneral = inject(GeneralService);
 
     constructor(private http: HttpClient) {}
 
+    //Daily Lines
     getDailyLines(date: string): Observable<DailyLine[]> {
         return this.http
             .get<ScoreboardResponse>(`${this.#apiUrlDailyLine}/scoreboard`, {
@@ -107,12 +112,6 @@ export class ApiDataDailyLines {
             );
     }
 
-    getLeaders(lines: DailyLine[], property: DailyStatProperty): DailyLine[] {
-        return [...lines]
-            .sort((a, b) => b[property] - a[property])
-            .slice(0, 10);
-    }
-
     #parseBoxscore(summary: SummaryResponse): DailyLine[] {
         const made = (value: string | undefined): number =>
             Number(String(value).split('-')[0]) || 0;
@@ -131,9 +130,9 @@ export class ApiDataDailyLines {
                 .map(
                     (athlete): DailyLine => ({
                         id: athlete.athlete.id,
-                        icon: this.getAvatar(athlete.athlete.id),
+                        icon: this.#apiGeneral.getAvatar(athlete.athlete.id),
                         name: athlete.athlete.displayName,
-                        team: this.getTeamAvatar(team.team.abbreviation),
+                        team: this.#apiGeneral.getTeamAvatar(team.team.abbreviation),
                         position: athlete.athlete.position?.abbreviation ?? '-',
                         pts: Number(column(athlete.stats ?? [], 'PTS')) || 0,
                         reb: Number(column(athlete.stats ?? [], 'REB')) || 0,
@@ -146,11 +145,9 @@ export class ApiDataDailyLines {
         });
     }
 
-    private getAvatar(id: string): string {
-        return `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
-    }
-
-    private getTeamAvatar(abbreviation: string): string {
-        return `https://a.espncdn.com/i/teamlogos/nba/500/${abbreviation.toLowerCase()}.png`;
+    getLeaders(lines: DailyLine[], property: DailyStatProperty): DailyLine[] {
+        return [...lines]
+            .sort((a, b) => b[property] - a[property])
+            .slice(0, 10);
     }
 }

@@ -14,8 +14,8 @@ import { TopLines } from './top-lines/top-lines';
     SideNavComponent,
     RouterModule,
     Header,
-    WelcomeCard,
     RouterOutlet,
+    WelcomeCard,
 ],
 })
 export class IndexPage {

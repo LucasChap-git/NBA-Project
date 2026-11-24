@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
+import { GeneralService } from './general.service';
 
 export interface LeaderPlayer {
     id: string;
@@ -131,13 +132,13 @@ interface EspnResponse {
     providedIn: 'root',
 })
 export class ApiDataTopLines {
+    //ESPN API Url
     readonly #apiUrlByAthlete ='https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete';
 
-    constructor(private http: HttpClient) {}
+    //General service
+    readonly #serviceGeneral = inject(GeneralService)
 
-    decimalRound(n: number): number {
-        return Math.round(Number(n) * 10) / 10;
-    }
+    constructor(private http: HttpClient) {}
 
     getStat(response: EspnResponse, athlete: EspnAthlete, statName: string, catName?: string, categoryIndexes = this.getCategoryIndexes(response),): number {
         const categoryIndexesForStat = catName
@@ -153,14 +154,6 @@ export class ApiDataTopLines {
         return 0;
     }
 
-    getAvatar(id: string): string {
-        return `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
-    }
-
-    getTeamAvatar(id: string): string {
-        return `https://a.espncdn.com/i/teamlogos/nba/500/${id.toLowerCase()}.png`;
-    }
-
     getLeaders(config: LeaderConfig): Observable<LeaderPlayer[]> {
         return this.http
             .get<EspnResponse>(this.#apiUrlByAthlete, {
@@ -174,13 +167,13 @@ export class ApiDataTopLines {
                 map((response) => {
                     const categoryIndexes = this.getCategoryIndexes(response);
                     return (response.athletes ?? []).map((athlete): LeaderPlayer => {
-                        const value = this.decimalRound(
+                        const value = this.#serviceGeneral.decimalRound(
                             this.getStat(response, athlete, config.stat, undefined, categoryIndexes),
                         );
                         const secondary = config.secondary
                             ? {
                                   label: config.secondary.label,
-                                  value: this.decimalRound(
+                                  value: this.#serviceGeneral.decimalRound(
                                       this.getStat(
                                           response,
                                           athlete,
@@ -194,9 +187,9 @@ export class ApiDataTopLines {
 
                         return {
                             id: athlete.athlete.id,
-                            icon: this.getAvatar(athlete.athlete.id),
+                            icon: this.#serviceGeneral.getAvatar(athlete.athlete.id),
                             name: athlete.athlete.displayName,
-                            team: this.getTeamAvatar(athlete.athlete.teamShortName),
+                            team: this.#serviceGeneral.getTeamAvatar(athlete.athlete.teamShortName),
                             value,
                             ...(secondary ? { secondary } : {}),
                         };

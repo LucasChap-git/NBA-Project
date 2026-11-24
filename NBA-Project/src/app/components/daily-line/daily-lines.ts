@@ -9,10 +9,15 @@ import {
     DailyLeaderConfig,
 } from '../../services/daily-lines.service';
 import { SectionTitle } from '../section-title/section-title';
+import { MatchAside } from '../match-aside/match-aside';
 
 @Component({
     selector: 'app-daily-lines',
-    imports: [AsyncPipe, RouterLink, MatIcon, SectionTitle],
+    imports: [
+        AsyncPipe, 
+        RouterLink, 
+        MatIcon, 
+    ],
     templateUrl: './daily-lines.html',
     styleUrl: './daily-lines.scss',
 })

@@ -1,0 +1,86 @@
+<aside class="recent-games">
+
+    <header class="recent-games__header">
+        <div>
+            <span class="recent-games__accent"></span>
+            <span class="recent-games__eyebrow">NBA TRACKER</span>
+            <h3>Lastest Games</h3>
+        </div>
+
+        <span class="recent-games__count">
+            {{ games().length }} GAMES
+        </span>
+    </header>
+
+    <div class="recent-games__list">
+
+        @for (game of games(); track game.id) {
+            <article class="game-card">
+
+                <div class="game-card__teams">
+
+                    <!-- Équipe à domicile -->
+                    <div class="game-card__team">
+                        <img
+                            [src]="game.hostTeam.team"
+                            [alt]="game.hostTeam.abbreviation"
+                            class="game-card__logo"
+                            loading="lazy"
+                        />
+
+                        <span>{{ game.hostTeam.abbreviation }}</span>
+                    </div>
+
+                    <!-- Scores -->
+                    <div class="game-card__score">
+                        @if(game.guestTeam.score > game.hostTeam.score) {
+                            <span>{{ game.hostTeam.score }}</span>
+                            <span>—</span>
+                            <strong>{{ game.guestTeam.score }}</strong>
+                        } @else {
+                            <strong>{{ game.hostTeam.score }}</strong>
+                            <span>—</span>
+                            <span>{{ game.guestTeam.score }}</span>
+                        }
+                    </div>
+
+                    <!-- Équipe visiteuse -->
+                    <div class="game-card__team game-card__team--right">
+                        <span>{{ game.guestTeam.abbreviation }}</span>
+
+                        <img
+                            [src]="game.guestTeam.team"
+                            [alt]="game.guestTeam.abbreviation"
+                            class="game-card__logo"
+                            loading="lazy"
+                        />
+                    </div>
+
+                </div>
+
+                <div class="game-card__footer">
+                    <span>FINAL SCORE</span>
+
+                    @if (game.hostTeam.score > game.guestTeam.score) {
+                        <span class="game-card__winner">
+                            {{ game.hostTeam.abbreviation }} WIN
+                        </span>
+                    } @else if (game.guestTeam.score > game.hostTeam.score) {
+                        <span class="game-card__winner">
+                            {{ game.guestTeam.abbreviation }} WIN
+                        </span>
+                    } @else {
+                        <span>DRAW</span>
+                    }
+                </div>
+
+            </article>
+        } @empty {
+            <p class="recent-games__empty">
+                No recent games available.
+            </p>
+        }
+
+    </div>
+
+</aside>

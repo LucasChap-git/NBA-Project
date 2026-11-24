@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { ApiDataTopLines, LEADERS } from '../../services/top-line.service';
 import { SectionTitle } from '../section-title/section-title';
+import { MatchAside } from '../match-aside/match-aside';
 
 @Component({
     selector: 'app-top-lines',
